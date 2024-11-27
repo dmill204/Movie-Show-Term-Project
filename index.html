@@ -13,79 +13,79 @@
 
 </head>
 <body>
-<div class="container my-4">
-    <h1 class="text-center p-2">Movie & Show Explorer</h1>
+    <div class="container my-4">
+        <h1 class="text-center p-2">Movie & Show Explorer</h1>
 
-    <div class="d-flex justify-content-center mb-4 p-4">
-        <button id="now-playing-tab" class="btn btn-outline-primary mx-2">Now Playing</button>
-        <button id="upcoming-tab" class="btn btn-outline-secondary mx-2">Upcoming Movies</button>
-    </div>
-
-    <!-- Movie Carousel -->
-    <div id="movie-carousel" class="carousel slide mb-4" data-bs-ride="carousel">
-
-        <div class="carousel-inner" id="carousel-content">
-            <!-- Slides will be dynamically added here -->
+        <div class="d-flex justify-content-center mb-4 p-4">
+            <button id="now-playing-tab" class="btn btn-outline-primary mx-2">Now Playing</button>
+            <button id="upcoming-tab" class="btn btn-outline-secondary mx-2">Upcoming Movies</button>
         </div>
 
-        <!-- Carousel Controls -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#movie-carousel" data-bs-slide="prev">
-            <i class="bi bi-arrow-left-circle" style="font-size: 2rem; color: #000;"></i>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#movie-carousel" data-bs-slide="next">
-            <i class="bi bi-arrow-right-circle" style="font-size: 2rem; color: #000;"></i>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
+        <!-- Movie Carousel -->
+        <div id="movie-carousel" class="carousel slide mb-4" data-bs-ride="carousel">
 
-    <!-- Dropdown for Discover Options -->
-    <div class="input-group mb-3 p-4">
-        <select id="search-type" class="form-select">
-            <option value="keyword" selected>Search by Keyword</option>
-            <option value="popular">Discover Popular Movies</option>
-        </select>
-        <input id="search-input" type="text" class="form-control" placeholder="Enter a search term (for keyword search only)">
-        <button id="search-button" class="btn btn-primary">Search</button>
-    </div>
+            <div class="carousel-inner" id="carousel-content">
+                <!-- Slides will be dynamically added here -->
+            </div>
 
-    <!-- Views Section -->
-    <div class="d-flex justify-content-between mb-3">
-        <h2>Search Results</h2>
-        <div>
-            <button id="grid-view" class="btn btn-outline-primary mx-2">Grid View</button>
-            <button id="list-view" class="btn btn-outline-secondary mx-2">List View</button>
+            <!-- Carousel Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#movie-carousel" data-bs-slide="prev">
+                <i class="bi bi-arrow-left-circle" style="font-size: 2rem; color: #000;"></i>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#movie-carousel" data-bs-slide="next">
+                <i class="bi bi-arrow-right-circle" style="font-size: 2rem; color: #000;"></i>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-    </div>
 
-    <!-- Sorting Dropdown -->
-    <div class="mb-3">
-        <label for="sort-options" class="form-label">Sort By:</label>
-        <select id="sort-options" class="form-select w-auto">
-            <option value="title-asc">Title (A-Z)</option>
-            <option value="title-desc">Title (Z-A)</option>
-            <option value="release_date-asc">Release Date (Oldest First)</option>
-            <option value="release_date-desc">Release Date (Newest First)</option>
-            <option value="rating-desc">Rating (High to Low)</option>
-            <option value="rating-asc">Rating (Low to High)</option>
-        </select>
-    </div>
+        <!-- Dropdown for Discover Options -->
+        <div class="input-group mb-3 p-4">
+            <select id="search-type" class="form-select">
+                <option value="keyword" selected>Search by Keyword</option>
+                <option value="popular">Discover Popular Movies</option>
+            </select>
+            <input id="search-input" type="text" class="form-control" placeholder="Enter a search term (for keyword search only)">
+            <button id="search-button" class="btn btn-primary">Search</button>
+        </div>
 
-    <!-- Results Section -->
-    <div id="results" class="row"></div>
+        <!-- Views Section -->
+        <div class="d-flex justify-content-between mb-3">
+            <h2>Search Results</h2>
+            <div>
+                <button id="grid-view" class="btn btn-outline-primary mx-2">Grid View</button>
+                <button id="list-view" class="btn btn-outline-secondary mx-2">List View</button>
+            </div>
+        </div>
 
-    <!-- Detailed View Modal -->
-    <div class="modal fade" id="details-modal" tabindex="-1" aria-labelledby="details-modal-label" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 id="details-modal-label" class="modal-title"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <!-- Sorting Dropdown -->
+        <div class="mb-3">
+            <label for="sort-options" class="form-label">Sort By:</label>
+            <select id="sort-options" class="form-select w-auto">
+                <option value="title-asc">Title (A-Z)</option>
+                <option value="title-desc">Title (Z-A)</option>
+                <option value="release_date-asc">Release Date (Oldest First)</option>
+                <option value="release_date-desc">Release Date (Newest First)</option>
+                <option value="rating-desc">Rating (High to Low)</option>
+                <option value="rating-asc">Rating (Low to High)</option>
+            </select>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results" class="row"></div>
+
+        <!-- Detailed View Modal -->
+        <div class="modal fade" id="details-modal" tabindex="-1" aria-labelledby="details-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 id="details-modal-label" class="modal-title"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="details-body"></div>
                 </div>
-                <div class="modal-body" id="details-body"></div>
             </div>
         </div>
     </div>
-</div>
 </body>
 </html>

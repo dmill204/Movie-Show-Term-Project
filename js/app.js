@@ -240,138 +240,95 @@ $(document).ready(function () {
     }
 });
 
-function sortResults(results, criterion) {
-    return results.sort((a, b) => {
-        if (criterion === 'title-asc') {
-            return a.title.localeCompare(b.title);
-        } else if (criterion === 'title-desc') {
-            return b.title.localeCompare(a.title);
-        } else if (criterion === 'release_date-asc') {
-            return new Date(a.release_date) - new Date(b.release_date);
-        } else if (criterion === 'release_date-desc') {
-            return new Date(b.release_date) - new Date(a.release_date);
-        } else if (criterion === 'rating-asc') {
-            return a.vote_average - b.vote_average;
-        } else if (criterion === 'rating-desc') {
-            return b.vote_average - a.vote_average;
-        }
-    });
-}
+    function sortResults(results, criterion) {
+        return results.sort((a, b) => {
+            if (criterion === 'title-asc') {
+                return a.title.localeCompare(b.title);
+            } else if (criterion === 'title-desc') {
+                return b.title.localeCompare(a.title);
+            } else if (criterion === 'release_date-asc') {
+                return new Date(a.release_date) - new Date(b.release_date);
+            } else if (criterion === 'release_date-desc') {
+                return new Date(b.release_date) - new Date(a.release_date);
+            } else if (criterion === 'rating-asc') {
+                return a.vote_average - b.vote_average;
+            } else if (criterion === 'rating-desc') {
+                return b.vote_average - a.vote_average;
+            }
+        });
+    }
 
-function viewActorDetails(personId) {
-    const url = `${BASE_URL}/person/${personId}?api_key=${API_KEY}&append_to_response=movie_credits`;
+    function viewActorDetails(personId) {
+        const url = `${BASE_URL}/person/${personId}?api_key=${API_KEY}&append_to_response=movie_credits`;
 
-    $.ajax({
-        url: url,
-        method: 'GET',
-        success: function (person) {
-            displayActorDetails(person);
-        },
-        error: function () {
-            alert('Error fetching actor details. Please try again.');
-        }
-    });
-}
+        $.ajax({
+            url: url,
+            method: 'GET',
+            success: function (person) {
+                displayActorDetails(person);
+            },
+            error: function () {
+                alert('Error fetching actor details. Please try again.');
+            }
+        });
+    }
 
-function displayActorDetails(person) {
-    const actorDetailsHtml = `
-            <div>
-                <img src="https://image.tmdb.org/t/p/w500${person.profile_path}" alt="${person.name}" class="img-fluid mb-3">
-                <h4>${person.name}</h4>
-                <p><strong>Birthday:</strong> ${person.birthday || 'N/A'}</p>
-                <p><strong>Biography:</strong> ${person.biography || 'No biography available.'}</p>
-                <h5>Known For</h5>
-                <ul>
-                    ${person.movie_credits.cast
-        .slice(0, 5)
-        .map(movie => `
-                            <li>${movie.title || movie.name} (${movie.release_date || 'N/A'})</li>
-                        `)
-        .join('')}
-                </ul>
-            </div>
-        `;
-
-    // Display in modal
-    $('#details-modal-label').text(person.name);
-    $('#details-body').html(actorDetailsHtml);
-}
-
-// Fetch and Display Movies
-function fetchMovies(url, sectionTitle) {
-    $.ajax({
-        url: url,
-        method: 'GET',
-        success: function (response) {
-            displaySpecialSection(response.results, sectionTitle);
-        },
-        error: function () {
-            alert('Error fetching movies. Please try again.');
-        }
-    });
-}
-
-// Highlight the Active Tab
-function toggleActiveTab(activeButton) {
-    $('#now-playing-tab, #upcoming-tab').removeClass('btn-primary').addClass('btn-outline-primary');
-    $(activeButton).removeClass('btn-outline-primary').addClass('btn-primary');
-}
-
-function displaySpecialSection(movies, sectionTitle) {
-    const sectionContainer = $('#special-section');
-    sectionContainer.empty(); // Clear previous content
-
-    // Add Section Title
-    sectionContainer.append(`<h3 class="col-12 mb-4">${sectionTitle}</h3>`);
-
-    // Display Movies
-    movies.forEach(movie => {
-        const movieCard = `
-                <div class="col-md-3 mb-4">
-                    <div class="card h-100">
-                        <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" class="card-img-top" alt="${movie.title}">
-                        <div class="card-body">
-                            <h5 class="card-title">${movie.title}</h5>
-                            <p class="card-text">${movie.release_date || 'N/A'}</p>
-                            <button class="btn btn-primary" onclick="viewDetails(${movie.id})">View Details</button>
-                        </div>
-                    </div>
+    function displayActorDetails(person) {
+        const actorDetailsHtml = `
+                <div>
+                    <img src="https://image.tmdb.org/t/p/w500${person.profile_path}" alt="${person.name}" class="img-fluid mb-3">
+                    <h4>${person.name}</h4>
+                    <p><strong>Birthday:</strong> ${person.birthday || 'N/A'}</p>
+                    <p><strong>Biography:</strong> ${person.biography || 'No biography available.'}</p>
+                    <h5>Known For</h5>
+                    <ul>
+                        ${person.movie_credits.cast
+            .slice(0, 5)
+            .map(movie => `
+                                <li>${movie.title || movie.name} (${movie.release_date || 'N/A'})</li>
+                            `)
+            .join('')}
+                    </ul>
                 </div>
             `;
-        sectionContainer.append(movieCard);
-    });
-}
 
-// Fetch and Populate Carousel Data
-function fetchMoviesForCarousel(url, sectionTitle) {
-    $.ajax({
-        url: url,
-        method: 'GET',
-        success: function (response) {
-            displayCarousel(response.results, sectionTitle);
-        },
-        error: function () {
-            alert('Error fetching movies. Please try again.');
-        }
-    });
-}
+        // Display in modal
+        $('#details-modal-label').text(person.name);
+        $('#details-body').html(actorDetailsHtml);
+    }
 
-// Display Movies in the Carousel
-function displayCarousel(movies, sectionTitle) {
-    const carouselContent = $('#carousel-content');
-    carouselContent.empty(); // Clear existing content
+    // Fetch and Display Movies
+    function fetchMovies(url, sectionTitle) {
+        $.ajax({
+            url: url,
+            method: 'GET',
+            success: function (response) {
+                displaySpecialSection(response.results, sectionTitle);
+            },
+            error: function () {
+                alert('Error fetching movies. Please try again.');
+            }
+        });
+    }
 
-    // Add Section Title Above Carousel
-    $('#movie-carousel').prev('h3').remove(); // Remove previous title
-    $('#movie-carousel').before(`<h3 class="mb-4 text-center">${sectionTitle}</h3>`);
+    // Highlight the Active Tab
+    function toggleActiveTab(activeButton) {
+        $('#now-playing-tab, #upcoming-tab').removeClass('btn-primary').addClass('btn-outline-primary');
+        $(activeButton).removeClass('btn-outline-primary').addClass('btn-primary');
+    }
 
-    // Generate Carousel Items
-    movies.forEach((movie, index) => {
-        const isActive = index === 0 ? 'active' : ''; // First slide should be active
-        const carouselItem = `
-                <div class="carousel-item ${isActive}">
-                    <div class="d-flex justify-content-center">
-                        <div class="card" style="width: 18rem;">
+    function displaySpecialSection(movies, sectionTitle) {
+        const sectionContainer = $('#special-section');
+        sectionContainer.empty(); // Clear previous content
+
+        // Add Section Title
+        sectionContainer.append(`<h3 class="col-12 mb-4">${sectionTitle}</h3>`);
+
+        // Display Movies
+        movies.forEach(movie => {
+            const movieCard = `
+                    <div class="col-md-3 mb-4">
+                        <div class="card h-100">
                             <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" class="card-img-top" alt="${movie.title}">
                             <div class="card-body">
                                 <h5 class="card-title">${movie.title}</h5>
@@ -380,14 +337,57 @@ function displayCarousel(movies, sectionTitle) {
                             </div>
                         </div>
                     </div>
-                </div>
-            `;
-        carouselContent.append(carouselItem);
-    });
-}
+                `;
+            sectionContainer.append(movieCard);
+        });
+    }
 
-// Highlight the Active Tab
-function toggleActiveTab(activeButton) {
-    $('#now-playing-tab, #upcoming-tab').removeClass('btn-primary').addClass('btn-outline-primary');
-    $(activeButton).removeClass('btn-outline-primary').addClass('btn-primary');
-}
+    // Fetch and Populate Carousel Data
+    function fetchMoviesForCarousel(url, sectionTitle) {
+        $.ajax({
+            url: url,
+            method: 'GET',
+            success: function (response) {
+                displayCarousel(response.results, sectionTitle);
+            },
+            error: function () {
+                alert('Error fetching movies. Please try again.');
+            }
+        });
+    }
+
+    // Display Movies in the Carousel
+    function displayCarousel(movies, sectionTitle) {
+        const carouselContent = $('#carousel-content');
+        carouselContent.empty(); // Clear existing content
+
+        // Add Section Title Above Carousel
+        $('#movie-carousel').prev('h3').remove(); // Remove previous title
+        $('#movie-carousel').before(`<h3 class="mb-4 text-center">${sectionTitle}</h3>`);
+
+        // Generate Carousel Items
+        movies.forEach((movie, index) => {
+            const isActive = index === 0 ? 'active' : ''; // First slide should be active
+            const carouselItem = `
+                    <div class="carousel-item ${isActive}">
+                        <div class="d-flex justify-content-center">
+                            <div class="card" style="width: 18rem;">
+                                <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" class="card-img-top" alt="${movie.title}">
+                                <div class="card-body">
+                                    <h5 class="card-title">${movie.title}</h5>
+                                    <p class="card-text">${movie.release_date || 'N/A'}</p>
+                                    <button class="btn btn-primary" onclick="viewDetails(${movie.id})">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            carouselContent.append(carouselItem);
+        });
+    }
+
+    // Highlight the Active Tab
+    function toggleActiveTab(activeButton) {
+        $('#now-playing-tab, #upcoming-tab').removeClass('btn-primary').addClass('btn-outline-primary');
+        $(activeButton).removeClass('btn-outline-primary').addClass('btn-primary');
+    }
